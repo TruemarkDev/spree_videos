@@ -14,8 +14,11 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 1.1'
-  s.add_dependency 'youtube_it', '~> 2.4.0'
+  spree_version = '>= 3.7.0', '< 5.0'
+  s.add_runtime_dependency 'spree_core', spree_version
+  s.add_runtime_dependency 'spree_api', spree_version
+  s.add_runtime_dependency 'spree_extension'
+  s.add_dependency 'youtube_it'
 
   # test suite
   s.add_development_dependency 'capybara', '~> 1.1'

@@ -1,7 +1,7 @@
 module Spree
   module Admin
     class VideosController < ResourceController
-      before_filter :load_data
+      before_action :load_data
       create.before :set_product
       update.before :set_product
 
@@ -22,7 +22,7 @@ module Spree
       end
 
       def load_data
-        @product = Product.find_by_permalink(params[:product_id])
+        @product = Product.find_by_id(params[:product_id])
       end
 
       def set_product
