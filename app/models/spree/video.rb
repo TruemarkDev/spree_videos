@@ -13,6 +13,10 @@ module Spree
       youtube_data
     end
 
+    def youtube_thumbnail
+      youtube_data.thumbnails.first
+    end
+
     def youtube_link
       "https://www.youtube.com/watch?v=#{youtube_ref}"
     end
