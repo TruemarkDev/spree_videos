@@ -12,7 +12,7 @@ html5_config = Spree::Videos.configuration.html_options.merge({
 
 # TODO: determine aspect ration dynamically
 
-# allow explicitly defining nil for height or width to eliminate the 
+# allow explicitly defining nil for height or width to eliminate the
 # width + height tags from being defined on the video iframe
 
 # TODO the nil check doesn't actually work because of youtube_it
@@ -33,5 +33,6 @@ else
   end
 end
 %>
-  <%== video.youtube_data.embed_html5(html5_config) %>
+  <iframe width="560" height="315" src="<%= video.youtube_embed_link %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <%#== video.youtube_data.embed_html5(html5_config) %>
 <% end if video.present? %>

@@ -16,13 +16,14 @@ module Spree
       end
 
       private
-  
+
       def location_after_save
         admin_product_videos_url(@product)
       end
 
       def load_data
-        @product = Product.find_by_id(params[:product_id])
+        @product = Product.find_by(slug: params[:product_id])
+        @collection = @product.videos
       end
 
       def set_product

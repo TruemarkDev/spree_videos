@@ -1,4 +1,4 @@
-class ConvertVideoToPolymorphic < ActiveRecord::Migration
+class ConvertVideoToPolymorphic < ActiveRecord::Migration[5.2]
   def up
     change_table :spree_videos do |t|
       t.references :watchable, :polymorphic => true

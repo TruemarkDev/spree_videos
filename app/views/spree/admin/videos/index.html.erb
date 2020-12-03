@@ -1,43 +1,46 @@
-<%= render :partial => 'spree/admin/shared/product_sub_menu' %>
+<%= content_for :page_actions do %>
+  <%= product_preview_link(@product) %>
+  <%= button_link_to t(:new_video), new_admin_product_video_url(@product), { class: "btn-success", icon: 'add.svg', id: 'admin_new_video' } %>
+<% end %>
 
-<%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Videos"} %>
+<%= render partial: 'spree/admin/shared/product_tabs', locals: { current: t(:videos) } %>
 
-<table class="index sortable">
-  <tr>
-    <th><%= t("youtube_ref") %></th>
-  </tr>
+<% if @collection.any? %>
+  <div class="table-responsive">
+    <table class="table sortable" id="listing_product_videos" data-hook>
+      <thead>
+      <tr data-hook="admin_product_videos_index_headers">
+        <th colspan="2">
+          <%= t("youtube_ref") %>
+        </th>
+        <th data-hook="admin_product_videos_index_header_actions" class="actions"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @collection.each do |video| %>
+        <tr data-hook="admin_orders_index_rows" class="<%= cycle('odd', 'even') %>">
+          <td class="move-handle">
+            <!--            TODO @prakash persist rearranging in backend-->
+            <% if can? :edit, video %>
+              <span class="icon icon-move handle"></span>
+            <% end %>
+          </td>
+          <td>
+            <%= video.try(:youtube_ref) %>
+          </td>
+          <td class="actions actions-2 text-right">
+            <%= link_to_edit_url edit_admin_product_video_url(@product, video) %>
+            <%= link_to_delete video, { url: admin_product_video_url(@product, video), name: nil } %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <% @product.videos.each do |video| %>
-    <tr id="<%= dom_id(video) %>">
-      <td>
-        <span class="handle"></span>
-        	<%= h video.youtube_ref %>
-      </td>
-      <td class="actions">
-        <%= link_to_with_icon('edit', t("edit"), edit_admin_product_video_url(@product, video), :class => 'edit') %>
-        &nbsp;
-        <%= link_to_delete video, {:url => admin_product_video_url(@product, video) }%>
-      </td>
-    </tr>
-  <% end %>
-</table>
-
-<div id="video"></div>
-<br/>
-<p>
-    <%= link_to icon('add') + ' ' + t("new_video"), new_admin_product_video_url(@product), :id => "new_video_link" %>
-</p>
-
-<% content_for :head do %>
-  <script type="text/javascript">
-    jQuery(document).ready(function(){
-
-      jQuery('#new_video_link').click(function (event) {
-        event.preventDefault();
-        jQuery(this).hide();
-        jQuery.ajax({type: 'GET', url: this.href, data: ({authenticity_token: AUTH_TOKEN}), success: function(r){ jQuery('#video').html(r);} });
-      });
-
-    });
-  </script>
+<% else %>
+  <div class="alert alert-info no-objects-found">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Video)) %>,
+    <%= link_to Spree.t(:add_one), new_object_url %>!
+  </div>
 <% end %>
