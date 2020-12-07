@@ -1,4 +1,4 @@
-class CreateVideos < ActiveRecord::Migration
+class CreateVideos < ActiveRecord::Migration[5.2]
   def self.up
     create_table :spree_videos do |t|
       t.string :youtube_ref
