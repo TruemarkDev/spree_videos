@@ -4,7 +4,7 @@ module Spree
       class VideoSerializer < BaseSerializer
         set_type :video
 
-        attributes :youtube_embed_link, :youtube_thumbnails
+        attributes :youtube_embed_link, :youtube_thumbnail, :youtube_ref
       end
     end
   end
